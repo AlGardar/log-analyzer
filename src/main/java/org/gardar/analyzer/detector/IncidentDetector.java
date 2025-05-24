@@ -42,12 +42,14 @@ public class IncidentDetector {
 
 
     public void finish() {
-        if (inIncident) closeIncident(lastSecond);
+        if (inIncident) {
+            closeIncident(lastSecond);
+        }
     }
 
     private void closeIncident(LocalDateTime end) {
-        double combined = 100.0 * sumSuccessRequests / sumTotalRequests;
-        reporter.report(new Incident(started, end, combined));
+        double percentAvailabilityLevel = 100.0 * sumSuccessRequests / sumTotalRequests;
+        reporter.report(new Incident(started, end, percentAvailabilityLevel));
         inIncident = false;
     }
 }
