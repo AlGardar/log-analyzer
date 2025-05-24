@@ -10,7 +10,6 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@Slf4j
 public class DefaultLogParser implements LogParser {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy:HH:mm:ss Z");
 
@@ -22,7 +21,6 @@ public class DefaultLogParser implements LogParser {
     public Optional<LogEntry> parse(String rowLine) {
         Matcher m = LOG_PATTERN.matcher(rowLine);
         if (!m.find()) {
-            log.warn("Log line skipped (doesn't match pattern): {}", rowLine);
             return Optional.empty();
         }
 
@@ -35,7 +33,6 @@ public class DefaultLogParser implements LogParser {
 
             return Optional.of(new LogEntry(ts, status, duration));
         } catch (Exception ex) {
-            log.error("Failed to parse log line: {}", rowLine, ex);
             return Optional.empty();
         }
     }
