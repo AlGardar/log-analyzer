@@ -7,8 +7,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class Config {
 
-    private final double availabilityThreshold;
-    private final double timeThreshold;
+    private final double availabilityThresholdPercent;
+    private final double timeThresholdMs;
 
     public static Config fromArgs(String[] args) {
         double avail = 100.0;
