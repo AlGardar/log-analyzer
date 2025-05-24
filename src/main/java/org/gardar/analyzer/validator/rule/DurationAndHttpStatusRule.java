@@ -4,13 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.gardar.analyzer.domain.LogEntry;
 
 @RequiredArgsConstructor
-public class DurationAndStatusRule implements AvailabilityRule {
+public class DurationAndHttpStatusRule implements AvailabilityRule {
 
-    private final double timeThresholdMs;
+    private final double durationThresholdMs;
 
     @Override
     public boolean isSuccess(LogEntry entry) {
-        int code = entry.httpStatusCode();
-        return (code < 500 || code >= 600) && entry.durationMs() <= timeThresholdMs;
+        int httpCode = entry.httpStatusCode();
+        return (httpCode < 500 || httpCode >= 600) && entry.durationMs() <= durationThresholdMs;
     }
 }

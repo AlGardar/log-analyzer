@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.gardar.analyzer.detector.IncidentDetector;
 import org.gardar.analyzer.domain.OneSecondStats;
 import org.gardar.analyzer.domain.LogEntry;
-import org.gardar.analyzer.parser.LogParser;
+import org.gardar.analyzer.parser.DefaultLogParser;
 import org.gardar.analyzer.validator.AvailabilityValidator;
 
 import java.io.BufferedReader;
@@ -15,13 +15,13 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 @RequiredArgsConstructor
-public class StreamingLogProcessor implements LogProcessor {
+public class StreamingLogProcessor {
 
-    private final LogParser parser;
+    private final DefaultLogParser parser;
     private final IncidentDetector detector;
     private final AvailabilityValidator validator;
 
-    @Override
+
     public void process(InputStream in) throws IOException {
         try (BufferedReader br = new BufferedReader(new InputStreamReader(in))) {
             String line;

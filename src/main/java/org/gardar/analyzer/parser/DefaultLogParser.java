@@ -11,13 +11,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Slf4j
-public class LogParser {
+public class DefaultLogParser implements LogParser {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy:HH:mm:ss Z");
 
     private static final Pattern LOG_PATTERN = Pattern.compile(
             "^\\S+ \\S+ \\S+ \\[([^]]+)] \"[A-Z]+ [^\"]+\" (\\d{3}) \\d+ ([\\d.]+)"
     );
 
+    @Override
     public Optional<LogEntry> parse(String rowLine) {
         Matcher m = LOG_PATTERN.matcher(rowLine);
         if (!m.find()) {

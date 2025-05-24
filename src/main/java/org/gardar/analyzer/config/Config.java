@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 public class Config {
 
     private final double availabilityThresholdPercent;
-    private final double timeThresholdMs;
+    private final double durationThresholdMs;
 
     public static Config fromArgs(String[] args) {
         double avail = 100.0;
