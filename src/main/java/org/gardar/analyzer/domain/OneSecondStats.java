@@ -11,4 +11,9 @@ public class OneSecondStats {
         totalRequests++;
         if (isSuccess) successRequests++;
     }
+
+    public void reset() {
+        totalRequests = 0;
+        successRequests = 0;
+    }
 }

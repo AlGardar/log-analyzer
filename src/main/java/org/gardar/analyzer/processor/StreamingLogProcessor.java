@@ -11,6 +11,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -23,7 +24,7 @@ public class StreamingLogProcessor {
 
 
     public void process(InputStream in) throws IOException {
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(in))) {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8))) {
             String line;
             LocalDateTime currentSecond = null;
             OneSecondStats stats = new OneSecondStats();
@@ -44,7 +45,7 @@ public class StreamingLogProcessor {
                 } else {
                     detector.detectIncident(currentSecond, stats);
                     currentSecond = entry.timestamp();
-                    stats = new OneSecondStats();
+                    stats.reset();
                     stats.record(isSuccessful);
                 }
             }
