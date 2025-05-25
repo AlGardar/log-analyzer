@@ -1,6 +1,5 @@
 package org.gardar.analyzer.parser;
 
-import lombok.extern.slf4j.Slf4j;
 import org.gardar.analyzer.domain.LogEntry;
 
 import java.time.LocalDateTime;

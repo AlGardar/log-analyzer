@@ -28,11 +28,11 @@ public class IncidentDetector {
             if (!inIncident) {
                 inIncident = true;
                 started = currentSecond;
-                sumTotalRequests = stats.getTotalRequests();
-                sumSuccessRequests = stats.getSuccessRequests();
+                sumTotalRequests = stats.getOneSecondTotalRequests();
+                sumSuccessRequests = stats.getOneSecondSuccessRequests();
             } else {
-                sumTotalRequests += stats.getTotalRequests();
-                sumSuccessRequests += stats.getSuccessRequests();
+                sumTotalRequests += stats.getOneSecondTotalRequests();
+                sumSuccessRequests += stats.getOneSecondSuccessRequests();
             }
         } else if (inIncident) {
             closeIncident(currentSecond.minusSeconds(1));

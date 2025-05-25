@@ -31,7 +31,9 @@ public class StreamingLogProcessor {
 
             while ((line = br.readLine()) != null) {
                 Optional<LogEntry> maybe = parser.parse(line);
-                if (maybe.isEmpty()) continue;
+                if (maybe.isEmpty()) {
+                    continue;
+                }
                 LogEntry entry = maybe.get();
 
                 boolean isSuccessful = validator.isSuccess(entry);
@@ -44,6 +46,7 @@ public class StreamingLogProcessor {
                     stats.record(isSuccessful);
                 } else {
                     detector.detectIncident(currentSecond, stats);
+
                     currentSecond = entry.timestamp();
                     stats.reset();
                     stats.record(isSuccessful);

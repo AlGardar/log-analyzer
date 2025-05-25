@@ -4,16 +4,16 @@ import lombok.Getter;
 
 @Getter
 public class OneSecondStats {
-    private int totalRequests;
-    private int successRequests;
+    private int oneSecondTotalRequests;
+    private int oneSecondSuccessRequests;
 
     public void record(boolean isSuccess) {
-        totalRequests++;
-        if (isSuccess) successRequests++;
+        oneSecondTotalRequests++;
+        if (isSuccess) oneSecondSuccessRequests++;
     }
 
     public void reset() {
-        totalRequests = 0;
-        successRequests = 0;
+        oneSecondTotalRequests = 0;
+        oneSecondSuccessRequests = 0;
     }
 }

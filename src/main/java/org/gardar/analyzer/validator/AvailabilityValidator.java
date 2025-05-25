@@ -15,6 +15,6 @@ public class AvailabilityValidator {
     }
 
     public double availabilityPercent(OneSecondStats s) {
-        return s.getTotalRequests() == 0 ? 100.0 : 100.0 * s.getSuccessRequests() / s.getTotalRequests();
+        return s.getOneSecondTotalRequests() == 0 ? 100.0 : 100.0 * s.getOneSecondSuccessRequests() / s.getOneSecondTotalRequests();
     }
 }
