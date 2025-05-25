@@ -1,6 +1,7 @@
 package org.gardar.analyzer.processor;
 
 import org.gardar.analyzer.detector.IncidentDetector;
+import org.gardar.analyzer.domain.Incident;
 import org.gardar.analyzer.parser.DefaultLogParser;
 import org.gardar.analyzer.report.IncidentReporter;
 import org.gardar.analyzer.validator.AvailabilityValidator;
@@ -9,6 +10,8 @@ import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -26,12 +29,12 @@ class StreamingLogProcessorTest {
 
     @Test
     void processorTest() throws Exception {
-        AtomicInteger incidents = new AtomicInteger();
-        IncidentReporter reporter = i -> incidents.incrementAndGet();
+        List<Incident> incidents = new ArrayList<>();
+        IncidentReporter mockReporter = incidents::add;
 
         var validator = new AvailabilityValidator(new DurationAndHttpStatusRule(45));
         var parser = new DefaultLogParser();
-        var detector = new IncidentDetector(90.0, validator, reporter);
+        var detector = new IncidentDetector(90.0, validator, mockReporter);
 
         StreamingLogProcessor p = new StreamingLogProcessor(parser, detector, validator);
 
@@ -39,6 +42,6 @@ class StreamingLogProcessorTest {
             p.process(in);
         }
 
-        assertEquals(1, incidents.get());
+        assertEquals(1, incidents.size());
     }
 }

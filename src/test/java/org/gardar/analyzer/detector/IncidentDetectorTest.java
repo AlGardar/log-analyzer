@@ -17,33 +17,38 @@ class IncidentDetectorTest {
 
     @Test
     void detectsSimpleIncident() {
-        List<Incident> captured = new ArrayList<>();
-        IncidentReporter stub = captured::add;
+        List<Incident> incidents = new ArrayList<>();
+        IncidentReporter mockReport = incidents::add;
 
-        AvailabilityValidator validator =
-                new AvailabilityValidator(new DurationAndHttpStatusRule(1000));
-        IncidentDetector det = new IncidentDetector(90.0, validator, stub);
+        var validator = new AvailabilityValidator(new DurationAndHttpStatusRule(45));
+        var det = new IncidentDetector(90.0, validator, mockReport);
 
         // second 0  → 2/3 ok = 66%  → incident start
         LocalDateTime t0 = LocalDateTime.of(2025, 5, 24, 10, 0, 0);
-        OneSecondStats stats = new OneSecondStats();
-        stats.record(true);
-        stats.record(false);
-        stats.record(true);
-        det.detectIncident(t0, stats);
+        OneSecondStats s0 = new OneSecondStats();
+        s0.record(true);
+        s0.record(false);
+        s0.record(true);
+        det.detectIncident(t0, s0);
 
-        // second 1  → 1/1 ok = 100% → incident ends
+        // second 1  → 1/1 ok = 0% → incident continue
         LocalDateTime t1 = t0.plusSeconds(1);
         OneSecondStats s1 = new OneSecondStats();
-        s1.record(true);
+        s1.record(false);
         det.detectIncident(t1, s1);
+
+        // second 2  → 1/1 ok = 100% → incident end
+        LocalDateTime t2 = t1.plusSeconds(1);
+        OneSecondStats s2 = new OneSecondStats();
+        s2.record(true);
+        det.detectIncident(t2, s2);
 
         det.finish();
 
-        assertEquals(1, captured.size());
-        Incident inc = captured.getFirst();
-        assertEquals(t0, inc.start());
-        assertEquals(t0, inc.end());                // закончился на предыдущей секунде
-        assertEquals(66.666, inc.availabilityPercent(), 0.01);
+        assertEquals(1, incidents.size());
+        Incident inc1 = incidents.get(0);
+        assertEquals(t0, inc1.start());
+        assertEquals(t1, inc1.end());
+        assertEquals(50, inc1.availabilityPercent(), 0.01);
     }
 }
