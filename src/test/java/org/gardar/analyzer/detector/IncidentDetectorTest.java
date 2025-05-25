@@ -48,7 +48,7 @@ class IncidentDetectorTest {
         assertEquals(1, incidents.size());
         Incident inc1 = incidents.get(0);
         assertEquals(t0, inc1.start());
-        assertEquals(t1, inc1.end());
+        assertEquals(t1, inc1.end()); // Инцидент закончился на 1 секунде
         assertEquals(50, inc1.availabilityPercent(), 0.01);
     }
 }

@@ -30,7 +30,7 @@
 
 
 ```bash
-cat access.log | java -jar log-analyzer.jar -u 99.9 -t 45
+cat access.log | java -jar log-analyzer-1.0.jar -u 99.9 -t 45
 ```
 ## Вывод в консоль
 
